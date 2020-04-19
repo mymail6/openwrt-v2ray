@@ -50,7 +50,7 @@ PKG_CONFIG_DEPENDS := \
 	CONFIG_V2RAY_DISABLE_DOMAIN_SOCKET_TRANS \
 	CONFIG_V2RAY_DISABLE_QUIC_TRANS
 
-PKG_BUILD_DEPENDS:=golang/host
+PKG_BUILD_DEPENDS:=golang/host V2RAY_COMPRESS_UPX:upx/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
@@ -262,7 +262,7 @@ define Build/Compile
 	mv -f $(GO_PKG_BUILD_BIN_DIR)/main $(GO_PKG_BUILD_BIN_DIR)/v2ray
 
 ifeq ($(CONFIG_V2RAY_COMPRESS_UPX),y)
-	upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/v2ray
+	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/v2ray
 endif
 
 ifneq ($(CONFIG_V2RAY_EXCLUDE_V2CTL),y)
@@ -271,7 +271,7 @@ ifneq ($(CONFIG_V2RAY_EXCLUDE_V2CTL),y)
 	mv -f $(GO_PKG_BUILD_BIN_DIR)/main $(GO_PKG_BUILD_BIN_DIR)/v2ctl
 
 ifeq ($(CONFIG_V2RAY_COMPRESS_UPX),y)
-	upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/v2ctl
+	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/v2ctl
 endif
 endif
 endef
